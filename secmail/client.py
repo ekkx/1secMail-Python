@@ -1,5 +1,6 @@
 import os
 import random
+import string
 import httpx
 
 from json import JSONDecodeError
@@ -9,7 +10,8 @@ from .config import (
     GEN_RANDOM_MAILBOX,
     GET_DOMAIN_LIST,
     GET_MESSAGES,
-    SINGLE_MESSAGE,
+    GET_SINGLE_MESSAGE,
+    DELETE_MAILBOX,
     DOWNLOAD,
 )
 
@@ -86,7 +88,7 @@ class Client:
         self.host = "https://" + host + "/api/v1/"
         self.client = httpx.Client()
 
-    def _request(self, method, url, params, json, data_type):
+    def _request(self, method, url, params=None, json=None, data_type=None):
         r = self.client.request(method=method, url=url, params=params, json=json)
 
         if r.status_code == 400:
@@ -114,17 +116,29 @@ class Client:
 
     def get_active_domains(self) -> list:
         """Get list of currently active domains"""
-        pass
+        return self._request(method="GET", url=f"{self.host + GET_DOMAIN_LIST}")
 
-    def random_email(self, amount: int, domain: str) -> list:
+    def random_email(self, amount: int, domain: str = None) -> list:
         """Generate random email addresses"""
-        pass
+        if domain is not None and domain not in DOMAIN_LIST:
+            raise ValueError("Invalid domain name.")
+
+        emails = []
+        for i in range(amount):
+            name = string.ascii_lowercase + string.digits
+            username = "".join(random.choice(name) for i in range(10))
+            if domain is not None:
+                emails.append(username + "@" + domain)
+            else:
+                emails.append(username + "@" + random.choice(DOMAIN_LIST))
+
+        return emails
 
     def delete_email(self, address: str):
         """Delete specific email address"""
         pass
 
-    def custom_email(self, username: str, domain: str) -> str:
+    def custom_email(self, username: str, domain: str = "1secmail.com") -> str:
         """Generate custom email address"""
         pass
 
