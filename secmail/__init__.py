@@ -1,4 +1,5 @@
 from .client import *
+from .config import *
 
-__version__ = "0.0.1"
+__version__ = config.VERSION
 __all__ = ["Client"]
