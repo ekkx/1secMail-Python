@@ -35,6 +35,10 @@ class Client:
         """Generate random email addresses"""
         pass
 
+    def delete_email(self, address: str):
+        """Delete specific email address"""
+        pass
+
     def custom_email(self, username: str, domain: str) -> str:
         """Generate custom email address"""
         pass
