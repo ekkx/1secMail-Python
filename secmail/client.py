@@ -14,6 +14,66 @@ from .config import (
 )
 
 
+class SecMailError(Exception):
+    """Base exception for 1secMail"""
+
+    pass
+
+
+class BadRequestError(SecMailError):
+    """BadRequestError()
+
+    Exception raised for a 400 HTTP status code
+    """
+
+    pass
+
+
+class AuthenticationError(SecMailError):
+    """AuthenticationError()
+
+    Exception raised for a 401 HTTP status code
+    """
+
+    pass
+
+
+class ForbiddenError(SecMailError):
+    """ForbiddenError()
+
+    Exception raised for a 403 HTTP status code
+    """
+
+    pass
+
+
+class NotFoundError(SecMailError):
+    """NotFoundError()
+
+    Exception raised for a 404 HTTP status code
+    """
+
+    pass
+
+
+class RateLimitError(SecMailError):
+    """RateLimitError()
+
+    Exception raised for a 429 HTTP status code
+    """
+
+    pass
+
+
+class ServerError(SecMailError):
+    """ServerError()
+
+    Exception raised for a 5xx HTTP status code
+    """
+
+    pass
+
+
 class Client:
     """An API wrapper for www.1secmail.com written in Python.
 
