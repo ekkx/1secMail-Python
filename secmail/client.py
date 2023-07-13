@@ -2,6 +2,8 @@ import os
 import random
 import httpx
 
+from json import JSONDecodeError
+
 from .config import (
     DOMAIN_LIST,
     GEN_RANDOM_MAILBOX,
@@ -25,7 +27,30 @@ class Client:
         self.client = httpx.Client()
 
     def _request(self, method, url, params, json, data_type):
-        pass
+        r = self.client.request(method=method, url=url, params=params, json=json)
+
+        if r.status_code == 400:
+            raise BadRequestError(f"HTTP {r.status_code}: {r.text}")
+        if r.status_code == 401:
+            raise AuthenticationError(f"HTTP {r.status_code}: {r.text}")
+        if r.status_code == 403:
+            raise ForbiddenError(f"HTTP {r.status_code}: {r.text}")
+        if r.status_code == 404:
+            raise NotFoundError(f"HTTP {r.status_code}: {r.text}")
+        if r.status_code == 429:
+            raise RateLimitError(f"HTTP {r.status_code}: {r.text}")
+        if r.status_code == 500:
+            raise ServerError(f"HTTP {r.status_code}: {r.text}")
+
+        try:
+            r = r.json()
+        except JSONDecodeError:
+            return r.text
+
+        if data_type is not None:
+            return data_type(r)
+
+        return r
 
     def get_active_domains(self) -> list:
         """Get list of currently active domains"""
