@@ -20,7 +20,7 @@ class Client:
 
     """
 
-    def __init__(self, host="www.1secmail.com") -> None:
+    def __init__(self, save_email=False, host="www.1secmail.com") -> None:
         self.host = "https://" + host + "/api/v1/"
         self.client = httpx.Client()
 
@@ -28,8 +28,15 @@ class Client:
         pass
 
     def get_active_domains(self):
+        """Getting list of active domains"""
         pass
 
     def generate_random_email(self, amount: int, domain: str):
         """Generating random email addresses"""
         pass
+
+    def generate_custom_email(self, name: str, domain: str):
+        """Generating custom email address"""
+        pass
+    
+    
