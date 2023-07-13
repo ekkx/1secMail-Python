@@ -4,7 +4,7 @@ import string
 import httpx
 import json
 
-from typing import List
+from typing import List, Tuple
 from json import JSONDecodeError
 
 from .config import (
@@ -15,7 +15,7 @@ from .config import (
     DELETE_MAILBOX,
     DOWNLOAD,
 )
-from .models import MailBox, Message, Attachment
+from .models import MailBox, Message
 
 
 class SecMailError(Exception):
@@ -126,11 +126,11 @@ class Client:
         return r
 
     @staticmethod
-    def _split_email(address: str) -> tuple:
+    def _split_email(address: str) -> Tuple[str, str]:
         return address.split("@")
 
     @staticmethod
-    def random_email(amount: int, domain: str = None) -> list:
+    def random_email(amount: int, domain: str = None) -> List[str]:
         """Generate a list of random email addresses."""
         if domain is not None and domain not in DOMAIN_LIST:
             err_msg = (
