@@ -20,23 +20,41 @@ class Client:
 
     """
 
-    def __init__(self, save_email=False, host="www.1secmail.com") -> None:
+    def __init__(self, host="www.1secmail.com") -> None:
         self.host = "https://" + host + "/api/v1/"
         self.client = httpx.Client()
 
     def _request(self, method, url, params, json, data_type):
         pass
 
-    def get_active_domains(self):
-        """Getting list of active domains"""
+    def get_active_domains(self) -> list:
+        """Get list of currently active domains"""
         pass
 
-    def generate_random_email(self, amount: int, domain: str):
-        """Generating random email addresses"""
+    def random_email(self, amount: int, domain: str) -> list:
+        """Generate random email addresses"""
         pass
 
-    def generate_custom_email(self, name: str, domain: str):
-        """Generating custom email address"""
+    def custom_email(self, username: str, domain: str) -> str:
+        """Generate custom email address"""
         pass
-    
-    
+
+    def get_messages(self, address: str) -> list:
+        """Check your mailbox"""
+        pass
+
+    def get_message(self, address: str, message_id: int):
+        """Fetch single message"""
+        pass
+
+    def await_new_message(self, address: str):
+        """Wait until you receive a new message"""
+        pass
+
+    def save_email(self, address: str):
+        """Save email to json file"""
+        pass
+
+    def download_attachment(self, address: str, message_id: int, filename: str):
+        """Download attachment from message"""
+        pass
