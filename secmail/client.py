@@ -2,10 +2,12 @@ import os
 import random
 import string
 import httpx
+import json
 
 from json import JSONDecodeError
 
 from .config import (
+    VERSION,
     DOMAIN_LIST,
     GET_DOMAIN_LIST,
     GET_MESSAGES,
@@ -86,7 +88,9 @@ class Client:
 
     """
 
-    def __init__(self, base_path=current_path, host="www.1secmail.com") -> None:
+    def __init__(
+        self, base_path=current_path + "/config/", host="www.1secmail.com"
+    ) -> None:
         self.base_path = base_path
         self.host = "https://" + host + "/api/v1/"
         self.client = httpx.Client()
@@ -157,9 +161,9 @@ class Client:
 
         return email
 
-    @staticmethod
-    def save_email(address: str):
-        """Save email to json file."""
+    def await_new_message(self, address: str):
+        """Wait until you receive a new message."""
+        # collect message ids when this function is called.
         pass
 
     def get_active_domains(self) -> list:
@@ -193,9 +197,21 @@ class Client:
             params={"login": username, "domain": domain, "id": message_id},
         )
 
-    def await_new_message(self, address: str):
-        """Wait until you receive a new message."""
-        pass
+    def save_email(self, address: str):
+        """Save email to json file."""
+        data = {}
+
+        if not os.path.exists(self.base_path):
+            os.mkdir(self.base_path)
+
+        if os.path.exists(current_path + "/config/secmail.json"):
+            with open(current_path + "/config/secmail.json", "r") as file:
+                data = json.load(file)
+
+        data.setdefault("email", []).append(address)
+
+        with open(current_path + "/config/secmail.json", "w") as file:
+            json.dump(data, file, indent=4)
 
     def download_attachment(self, address: str, message_id: int, filename: str):
         """Download attachment from message."""
