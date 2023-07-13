@@ -7,7 +7,6 @@ from json import JSONDecodeError
 
 from .config import (
     DOMAIN_LIST,
-    GEN_RANDOM_MAILBOX,
     GET_DOMAIN_LIST,
     GET_MESSAGES,
     GET_SINGLE_MESSAGE,
@@ -76,6 +75,9 @@ class ServerError(SecMailError):
     pass
 
 
+current_path = os.path.abspath(os.getcwd())
+
+
 class Client:
     """An API wrapper for www.1secmail.com written in Python.
 
@@ -84,7 +86,7 @@ class Client:
 
     """
 
-    def __init__(self, host="www.1secmail.com") -> None:
+    def __init__(self, base_path=current_path, host="www.1secmail.com") -> None:
         self.host = "https://" + host + "/api/v1/"
         self.client = httpx.Client()
 
