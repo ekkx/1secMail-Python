@@ -25,7 +25,7 @@ class MailBox:
         self.subject = response.get("subject")
         self.date = response.get("date")
 
-    def __str__(self) -> str:
+    def __repr__(self) -> str:
         return f"MailBox(id={self.id}, from_address={self.from_address}, subject={self.subject}, date={self.date})"
 
 
@@ -84,9 +84,36 @@ class Message:
         self.text_body = response.get("textBody")
         self.html_body = response.get("htmlBody")
 
-    def __str__(self) -> str:
-        return f"Message(id={self.id}, from_address={self.from_address}, subject={self.subject}, date={self.date})"
+    def __repr__(self) -> str:
+        return (
+            f"Message(id={self.id}, from_address={self.from_address}, subject={self.subject}, "
+            f"date={self.date}, attachments={self.attachments}, body={self.body}, "
+            f"text_body={self.text_body}, html_body={self.html_body})"
+        )
 
 
 class Attachment:
-    pass
+    """The attachment object contains the attachment's filename, content_type and file size.
+
+    ---
+
+    Attributes:
+    ----------
+
+    - filename : (``str``) - Attachment filename
+
+    - content_type : (``str``) - Attachment content type
+
+    - size : (``int``) - Attachment size
+
+    """
+
+    __slots__ = "filename", "content_type", "size"
+
+    def __init__(self, response) -> None:
+        self.filename = response.get("filename")
+        self.content_type = response.get("contentType")
+        self.size = response.get("size")
+
+    def __repr__(self) -> str:
+        return f"Message(id={self.filename}, from_address={self.content_type}, subject={self.size})"
