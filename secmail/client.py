@@ -193,4 +193,14 @@ class Client:
 
     def download_attachment(self, address: str, message_id: int, filename: str):
         """Download attachment from message."""
-        pass
+        username, domain = self._split_email(address)
+        return self._request(
+            method="GET",
+            url=f"{self.host + DOWNLOAD}",
+            params={
+                "login": username,
+                "domain": domain,
+                "id": message_id,
+                "file": filename,
+            },
+        )
