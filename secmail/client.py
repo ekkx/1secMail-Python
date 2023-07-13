@@ -114,6 +114,10 @@ class Client:
 
         return r
 
+    @staticmethod
+    def _split_email(address: str) -> tuple:
+        return address.split("@")
+
     def get_active_domains(self) -> list:
         """Get list of currently active domains"""
         return self._request(method="GET", url=f"{self.host + GET_DOMAIN_LIST}")
@@ -137,9 +141,14 @@ class Client:
 
         return emails
 
-    def delete_email(self, address: str):
-        """Delete specific email address"""
-        pass
+    def delete_email(self, address: str) -> str:
+        """This function deletes a specific email address."""
+        username, domain = self._split_email(address)
+        return self._request(
+            method="DELETE",
+            url=f"{self.host + DELETE_MAILBOX}",
+            params={"login": username, "domain": domain},
+        )
 
     def custom_email(self, username: str, domain: str = "1secmail.com") -> str:
         """Generate custom email address"""
