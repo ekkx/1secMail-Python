@@ -176,7 +176,12 @@ class Client:
 
     def get_message(self, address: str, message_id: int):
         """Fetch single message."""
-        pass
+        username, domain = self._split_email(address)
+        return self._request(
+            method="GET",
+            url=f"{self.host + GET_SINGLE_MESSAGE}",
+            params={"login": username, "domain": domain, "id": message_id},
+        )
 
     def await_new_message(self, address: str):
         """Wait until you receive a new message."""
