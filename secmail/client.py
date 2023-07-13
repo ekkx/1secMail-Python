@@ -12,5 +12,7 @@ class Client:
     """
 
     def __init__(self, host="www.1secmail.com") -> None:
-        self.host = "https://" + host
+        self.host = "https://" + host + "/api/v1/"
         self.client = httpx.Client()
+
+    
