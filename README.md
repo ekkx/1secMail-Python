@@ -51,12 +51,12 @@ client = secmail.Client()
 client.random_email(amount=1)[0]
 >>> 'vsd2bq6zo3@1secmail.net'
 
-client.custom_email(username="bobby-bob")
->>> 'bobby-bob@1secmail.org'
+client.custom_email(username="bobby-bob", domain="kzccv.com")
+>>> 'bobby-bob@kzccv.com'
 
 
 # Checking your mailbox:
-messages = client.get_messages("bobby-bob@1secmail.org")
+messages = client.get_messages("bobby-bob@kzccv.com")
 for message in messages:
     print(message.id)
     print(message.from_address)
@@ -65,7 +65,7 @@ for message in messages:
 
 
 # Fetching single message:
-message = client.get_message(address="bobby-bob@1secmail.org", message_id=235200687)
+message = client.get_message(address="bobby-bob@kzccv.com", message_id=235200687)
 print(message.id)
 print(message.subject)
 print(message.body)
