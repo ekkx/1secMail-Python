@@ -152,7 +152,18 @@ class Client:
 
     def custom_email(self, username: str, domain: str = "1secmail.com") -> str:
         """Generate custom email address"""
-        pass
+        if domain is not None and domain not in DOMAIN_LIST:
+            err_msg = (
+                f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
+            )
+            raise ValueError(err_msg)
+
+        if domain is not None:
+            email = username + "@" + domain
+        else:
+            email = username + "@" + random.choice(DOMAIN_LIST)
+
+        return email
 
     def get_messages(self, address: str) -> list:
         """Check your mailbox"""
