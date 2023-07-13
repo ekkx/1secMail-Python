@@ -15,4 +15,8 @@ class Client:
         self.host = "https://" + host + "/api/v1/"
         self.client = httpx.Client()
 
-    
+    def _request(self):
+        pass
+
+    def create_random_email(self, amount: int):
+        pass
