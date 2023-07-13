@@ -119,11 +119,11 @@ class Client:
         return address.split("@")
 
     def get_active_domains(self) -> list:
-        """Get list of currently active domains"""
+        """Get list of currently active domains."""
         return self._request(method="GET", url=f"{self.host + GET_DOMAIN_LIST}")
 
     def random_email(self, amount: int, domain: str = None) -> list:
-        """This function generates a list of random email addresses."""
+        """Generate a list of random email addresses."""
         if domain is not None and domain not in DOMAIN_LIST:
             err_msg = (
                 f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
@@ -142,7 +142,7 @@ class Client:
         return emails
 
     def delete_email(self, address: str) -> str:
-        """This function deletes a specific email address."""
+        """Delete specific email address."""
         username, domain = self._split_email(address)
         return self._request(
             method="DELETE",
@@ -151,7 +151,7 @@ class Client:
         )
 
     def custom_email(self, username: str, domain: str = "1secmail.com") -> str:
-        """Generate custom email address"""
+        """Generate custom email address."""
         if domain is not None and domain not in DOMAIN_LIST:
             err_msg = (
                 f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
@@ -166,21 +166,26 @@ class Client:
         return email
 
     def get_messages(self, address: str) -> list:
-        """Check your mailbox"""
-        pass
+        """Check your mailbox."""
+        username, domain = self._split_email(address)
+        return self._request(
+            method="GET",
+            url=f"{self.host + GET_MESSAGES}",
+            params={"login": username, "domain": domain},
+        )
 
     def get_message(self, address: str, message_id: int):
-        """Fetch single message"""
+        """Fetch single message."""
         pass
 
     def await_new_message(self, address: str):
-        """Wait until you receive a new message"""
+        """Wait until you receive a new message."""
         pass
 
     def save_email(self, address: str):
-        """Save email to json file"""
+        """Save email to json file."""
         pass
 
     def download_attachment(self, address: str, message_id: int, filename: str):
-        """Download attachment from message"""
+        """Download attachment from message."""
         pass
