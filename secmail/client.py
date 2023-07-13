@@ -4,10 +4,10 @@ import string
 import httpx
 import json
 
+from typing import List
 from json import JSONDecodeError
 
 from .config import (
-    VERSION,
     DOMAIN_LIST,
     GET_DOMAIN_LIST,
     GET_MESSAGES,
@@ -15,6 +15,7 @@ from .config import (
     DELETE_MAILBOX,
     DOWNLOAD,
 )
+from .models import MailBox, Message, Attachment
 
 
 class SecMailError(Exception):
@@ -117,7 +118,10 @@ class Client:
             return r.text
 
         if data_type is not None:
-            return data_type(r)
+            if isinstance(r, list):
+                r = [data_type(result) for result in r]
+            elif r is not None:
+                r = data_type(r)
 
         return r
 
@@ -179,25 +183,27 @@ class Client:
             params={"login": username, "domain": domain},
         )
 
-    def get_messages(self, address: str) -> list:
+    def get_messages(self, address: str) -> List[MailBox]:
         """Check your mailbox."""
         username, domain = self._split_email(address)
         return self._request(
             method="GET",
             url=f"{self.host + GET_MESSAGES}",
             params={"login": username, "domain": domain},
+            data_type=MailBox,
         )
 
-    def get_message(self, address: str, message_id: int):
+    def get_message(self, address: str, message_id: int) -> Message:
         """Fetch single message."""
         username, domain = self._split_email(address)
         return self._request(
             method="GET",
             url=f"{self.host + GET_SINGLE_MESSAGE}",
             params={"login": username, "domain": domain, "id": message_id},
+            data_type=Message,
         )
 
-    def save_email(self, address: str):
+    def save_email(self, address: str) -> None:
         """Save email to json file."""
         data = {}
 
