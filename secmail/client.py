@@ -119,9 +119,12 @@ class Client:
         return self._request(method="GET", url=f"{self.host + GET_DOMAIN_LIST}")
 
     def random_email(self, amount: int, domain: str = None) -> list:
-        """Generate random email addresses"""
+        """This function generates a list of random email addresses."""
         if domain is not None and domain not in DOMAIN_LIST:
-            raise ValueError("Invalid domain name.")
+            err_msg = (
+                f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
+            )
+            raise ValueError(err_msg)
 
         emails = []
         for i in range(amount):
