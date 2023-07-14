@@ -16,11 +16,11 @@
 
 ### About
 
-This is a simple Python API wrapper for www.1secmail.com ↗ using the official 1secMail API. It allows you to easily create temporary email addresses for testing, verification, or other purposes where you need a disposable email address.
+This is an easy to use yet full-featured Python API wrapper for www.1secmail.com ↗ using the official 1secMail API. It allows you to easily create temporary email addresses for testing, verification, or other purposes where you need a disposable email address.
 
 ### Install
 
-To install this package, you'll need Python 3.8 or above installed on your computer. From your command line:
+To install the package, you'll need Python 3.8 or above installed on your computer. From your command line:
 
 ```bash
 pip install 1secMail
