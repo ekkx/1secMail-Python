@@ -151,7 +151,7 @@ class Client:
         return emails
 
     @staticmethod
-    def custom_email(username: str, domain: str = "1secmail.com") -> str:
+    def custom_email(username: str, domain: str = None) -> str:
         """Generate custom email address."""
         if domain is not None and domain not in DOMAIN_LIST:
             err_msg = (
