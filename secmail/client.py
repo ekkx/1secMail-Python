@@ -216,13 +216,13 @@ class Client:
         if not os.path.exists(self.base_path):
             os.mkdir(self.base_path)
 
-        if os.path.exists(current_path + "/config/secmail.json"):
-            with open(current_path + "/config/secmail.json", "r") as f:
+        if os.path.exists(self.base_path + "secmail.json"):
+            with open(self.base_path + "secmail.json", "r") as f:
                 data = json.load(f)
 
         data.setdefault("email", []).append(address)
 
-        with open(current_path + "/config/secmail.json", "w") as f:
+        with open(self.base_path + "secmail.json", "w") as f:
             json.dump(data, f, indent=4)
 
     def download_attachment(self, address: str, message_id: int, filename: str):
