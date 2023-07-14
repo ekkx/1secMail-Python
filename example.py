@@ -6,10 +6,10 @@ client = secmail.Client()
 # Generating Email Addresses
 
 # To generate a list of random email addresses, use the random_email() method:
-client.random_email(amount=3)
+client.random_email(amount=3, domain="1secmail.com")
 
 # You can also generate a custom email address by specifying the username and domain:
-client.custom_email(username="bobby-bob", domain="kzccv.com")
+client.custom_email(username="bobby-bob")
 
 
 # Receiving Messages
