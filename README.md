@@ -45,7 +45,7 @@ pip install -e .
 
 #### Generating Email Addresses
 
-To generate a random email address, use the `random_email()` method:
+To generate a list of random email addresses, use the `random_email()` method:
 
 ```python
 import secmail
