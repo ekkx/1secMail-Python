@@ -245,6 +245,7 @@ class Client:
         The method will continuously check for new messages every `fetch_interval` seconds until a new message is received. Once a new message is received, the message object is returned. The method also maintains a set of message IDs to check if the message is new. If the same message is received again, the method will continue to wait for a new message.
 
         Note that if no new messages are received for a long time, the method may take a long time to return.
+
         """
         ids = {message.id for message in self.get_messages(address)}
         while True:
@@ -268,7 +269,25 @@ class Client:
         )
 
     def get_inbox(self, address: str) -> List[Inbox]:
-        """Check your mailbox."""
+        """This method retrieves all the messages in the mailbox for the specified email address.
+
+        Parameters:
+        ----------
+        - `address`: `str` - The email address to check for messages.
+
+        Returns:
+        -------
+        - `messages`: `List[Inbox]` - A list of message objects in the mailbox.
+
+        Example:
+        -------
+        Get all the messages in the mailbox for the email address "johndoe@1secmail.com":
+
+        >>> messages = client.get_inbox("johndoe@1secmail.com")
+
+        The method sends a GET request to the API endpoint to retrieve all the messages in the mailbox for the specified email address. The messages are returned as a list of message objects. If there are no messages in the mailbox, an empty list is returned.
+
+        """
         username, domain = self._split_email(address)
         return self._request(
             method="GET",
