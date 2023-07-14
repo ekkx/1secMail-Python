@@ -142,6 +142,7 @@ class Client:
 
         Example:
         -------
+        Generate a list of 5 email addresses with the domain "1secmail.com":
 
             >>> client.random_email(amount=5, domain="1secmail.com")
 
@@ -157,7 +158,7 @@ class Client:
             - icznn.com
             - ezztt.com
 
-         If `domain` is provided and not in the valid list of domains, a ValueError will be raised with a message indicating the invalid domain and the valid list of domains.
+        If `domain` is provided and not in the valid list of domains, a ValueError will be raised with a message indicating the invalid domain and the valid list of domains.
 
         """
         if domain is not None and domain not in DOMAIN_LIST:
@@ -179,7 +180,37 @@ class Client:
 
     @staticmethod
     def custom_email(username: str, domain: str = None) -> str:
-        """Generate custom email address."""
+        """This functioni generates a custom email address.
+
+        Parameters:
+        ----------
+        - `username`: `str` - The username to use for the email address.
+        - `domain`: `str` (optional) - The domain name to use for the email address. If not provided, a random domain from the valid list of domains will be selected.
+
+        Returns:
+        -------
+        - `email`: `str` - The generated email address.
+
+        Example:
+        -------
+        Generate a custom email address with the username "johndoe":
+
+        >>> client.custom_email(username="johndoe")
+
+        Valid domains:
+        -------------
+        - 1secmail.com
+        - 1secmail.org
+        - 1secmail.net
+        - kzccv.com
+        - qiott.com
+        - wuuvo.com
+        - icznn.com
+        - ezztt.com
+
+        If `domain` is provided and not in the valid list of domains, a ValueError will be raised with a message indicating the invalid domain and the valid list of domains.
+
+        """
         if domain is not None and domain not in DOMAIN_LIST:
             err_msg = (
                 f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
