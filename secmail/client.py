@@ -326,7 +326,21 @@ class Client:
         )
 
     def save_email(self, address: str) -> None:
-        """Save email to json file."""
+        """This method saves the specified email address to a JSON file for future use.
+
+        Parameters:
+        ----------
+        - `address`: `str` - The email address to save.
+
+        Example:
+        -------
+        Save the email address "johndoe@1secmail.com" to the JSON file:
+
+        >>> client.save_email("johndoe@1secmail.com")
+
+        The JSON file is saved in the base path specified during client initialization, with the name `secmail.json`.
+
+        """
         data = {}
 
         if not os.path.exists(self.base_path):
