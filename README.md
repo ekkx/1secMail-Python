@@ -59,7 +59,7 @@ client.random_email(amount=3)
 You can also generate a custom email address by specifying the username and domain:
 
 > **Note**
-> Specifying a domain is optional.
+> Specifying a domain is optional!
 
 ```python
 client.custom_email(username="bobby-bob", domain="kzccv.com")

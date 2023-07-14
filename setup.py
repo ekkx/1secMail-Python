@@ -9,7 +9,17 @@ long_description_content_type = "text/markdown"
 license = "MIT"
 url = "https://github.com/qvco/1secMail-Python"
 
-keywords = ["1secmail", "onesecmail", "tempmail", "email", "api", "wrapper", "library"]
+keywords = [
+    "1secmail",
+    "onesecmail",
+    "tempmail",
+    "disposable",
+    "temporary",
+    "email",
+    "api",
+    "wrapper",
+    "library",
+]
 
 install_requires = ["httpx>=0.17.1"]
 
