@@ -259,8 +259,26 @@ class Client:
         """Get list of currently active domains."""
         return self._request(method="GET", url=self.host + GET_DOMAIN_LIST)
 
-    def delete_email(self, address: str) -> str:
-        """Delete specific email address."""
+    def delete_email(self, address: str) -> None:
+        """This method deletes the mailbox for the specified email address.
+
+        Parameters:
+        ----------
+        - `address`: `str` - The email address to delete.
+
+        Returns:
+        -------
+        - `response`: `None` - The response message from the API.
+
+        Example:
+        -------
+        Delete the mailbox for the email address "johndoe@1secmail.com":
+
+        >>> client.delete_email("johndoe@1secmail.com")
+
+        The method sends a DELETE request to the API endpoint to delete the mailbox for the specified email address.
+
+        """
         username, domain = self._split_email(address)
         return self._request(
             method="DELETE",
