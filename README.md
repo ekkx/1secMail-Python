@@ -16,7 +16,7 @@
 
 ### About
 
-This is a simple Python API wrapper for www.1secmail.com ↗ using the official 1secMail API. It allows you to easily generate temporary email addresses as much as you want and retrieve emails sent to those addresses.
+This is a simple Python API wrapper for www.1secmail.com ↗ using the official 1secMail API. It allows you to easily create temporary email addresses for testing, verification, or other purposes where you need a disposable email address.
 
 ### Install
 
@@ -32,7 +32,7 @@ pip install 1secMail
 > If you're willing to install the development version, do the following:
 
 ```bash
-git clone https://github.com/qvco/1secMail-Python
+git clone https://github.com/qvco/1secMail-Python.git
 
 cd 1secMail-Python
 
@@ -41,30 +41,53 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### How To Use
+### Usage
+
+#### Generating Email Addresses
+
+To generate a random email address, use the `random_email()` method:
 
 ```python
 import secmail
 
 client = secmail.Client()
 
-client.random_email(amount=1)[0]
->>> 'vsd2bq6zo3@1secmail.net'
+client.random_email(amount=3)
+>>> ['c3fho3cry1@1secmail.net', '5qcd3d36zr@1secmail.org', 'b6fgeothtg@1secmail.net']
+```
 
+You can also generate a custom email address by specifying the username and domain:
+
+> **Note**
+> Specifying a domain is optional.
+
+```python
 client.custom_email(username="bobby-bob", domain="kzccv.com")
 >>> 'bobby-bob@kzccv.com'
+```
 
+#### Receiving Messages
 
-# Checking your mailbox:
+To wait until a new message is received, use the `await_new_message()` method:
+
+```python
+message = client.await_new_message(address)
+```
+
+To check all messages received on a particular email address, use the `get_messages()` method and pass the email address:
+
+```python
 messages = client.get_messages("bobby-bob@kzccv.com")
 for message in messages:
     print(message.id)
     print(message.from_address)
     print(message.subject)
     print(message.date)
+```
 
+You can also fetch a single message using the `get_message()` method and passing the email address and message ID:
 
-# Fetching single message:
+```python
 message = client.get_message(address="bobby-bob@kzccv.com", message_id=235200687)
 print(message.id)
 print(message.subject)
@@ -73,9 +96,13 @@ print(message.text_body)
 print(message.html_body)
 print(message.attachments)
 print(message.date)
+```
 
+#### Attachment Information
 
-# Checking attachment informations
+To check attachment information, loop through the attachments in the message object and print the filename, content type, and size:
+
+```python
 for attachment in message.attachments:
     print(attachment.filename)
     print(attachment.content_type)
