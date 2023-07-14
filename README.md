@@ -58,13 +58,13 @@ client.random_email(amount=3)
 
 You can also generate a custom email address by specifying the username and domain:
 
-> **Note**
-> Specifying a domain is optional!
-
 ```python
 client.custom_email(username="bobby-bob", domain="kzccv.com")
 >>> 'bobby-bob@kzccv.com'
 ```
+
+> **Note**
+> Specifying a domain is optional!
 
 #### Receiving Messages
 
@@ -74,10 +74,10 @@ To wait until a new message is received, use the `await_new_message()` method:
 message = client.await_new_message(address)
 ```
 
-To check all messages received on a particular email address, use the `get_messages()` method and pass the email address:
+To check all messages received on a particular email address, use the `get_inbox()` method and pass the email address:
 
 ```python
-messages = client.get_messages("bobby-bob@kzccv.com")
+messages = client.get_inbox("bobby-bob@kzccv.com")
 for message in messages:
     print(message.id)
     print(message.from_address)
