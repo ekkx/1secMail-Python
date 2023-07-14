@@ -178,14 +178,14 @@ class Client:
 
     def get_active_domains(self) -> list:
         """Get list of currently active domains."""
-        return self._request(method="GET", url=f"{self.host + GET_DOMAIN_LIST}")
+        return self._request(method="GET", url=self.host + GET_DOMAIN_LIST)
 
     def delete_email(self, address: str) -> str:
         """Delete specific email address."""
         username, domain = self._split_email(address)
         return self._request(
             method="DELETE",
-            url=f"{self.host + DELETE_MAILBOX}",
+            url=self.host + DELETE_MAILBOX,
             params={"login": username, "domain": domain},
         )
 
@@ -194,7 +194,7 @@ class Client:
         username, domain = self._split_email(address)
         return self._request(
             method="GET",
-            url=f"{self.host + GET_MESSAGES}",
+            url=self.host + GET_MESSAGES,
             params={"login": username, "domain": domain},
             data_type=MailBox,
         )
@@ -204,7 +204,7 @@ class Client:
         username, domain = self._split_email(address)
         return self._request(
             method="GET",
-            url=f"{self.host + GET_SINGLE_MESSAGE}",
+            url=self.host + GET_SINGLE_MESSAGE,
             params={"login": username, "domain": domain, "id": message_id},
             data_type=Message,
         )
@@ -230,7 +230,7 @@ class Client:
         username, domain = self._split_email(address)
         return self._request(
             method="GET",
-            url=f"{self.host + DOWNLOAD}",
+            url=self.host + DOWNLOAD,
             params={
                 "login": username,
                 "domain": domain,
