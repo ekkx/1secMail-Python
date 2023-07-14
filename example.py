@@ -3,6 +3,7 @@ import secmail
 client = secmail.Client()
 
 # Generating Email Addresses
+
 # To generate a list of random email addresses, use the random_email() method:
 client.random_email(amount=3)
 
@@ -11,6 +12,7 @@ client.custom_email(username="bobby-bob", domain="kzccv.com")
 
 
 # Receiving Messages
+
 # To wait until a new message is received, use the await_new_message() method:
 message = client.await_new_message("bobby-bob@kzccv.com")
 
@@ -34,6 +36,7 @@ print(message.date)
 
 
 # Attachment Information
+
 # To check attachment information, loop through the attachments in the message object and print the filename, content type, and size:
 for attachment in message.attachments:
     print(attachment.filename)
