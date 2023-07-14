@@ -4,7 +4,7 @@ from secmail.config import VERSION
 name = "1secMail"
 author = "qvco"
 author_email = "nikola.desuga@gmail.com"
-description = "Create and receive email in only 1 second! 📧 An API wrapper for www.1secmail.com written in Python."
+description = "📧 Simple and intuitive, yet full featured API wrapper for www.1secmail.com written in Python."
 long_description_content_type = "text/markdown"
 license = "MIT"
 url = "https://github.com/qvco/1secMail-Python"
