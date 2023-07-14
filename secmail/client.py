@@ -1,4 +1,5 @@
 import os
+import time
 import random
 import string
 import httpx
@@ -165,10 +166,15 @@ class Client:
 
         return email
 
-    def await_new_message(self, address: str):
+    def await_new_message(self, address: str, fetch_interval=5):
         """Wait until you receive a new message."""
-        # collect message ids when this function is called.
-        pass
+        ids = {message.id for message in self.get_messages(address)}
+        while True:
+            time.sleep(fetch_interval)
+            new_messages = self.get_messages(address)
+            for message in new_messages:
+                if message.id not in ids:
+                    return message
 
     def get_active_domains(self) -> list:
         """Get list of currently active domains."""
