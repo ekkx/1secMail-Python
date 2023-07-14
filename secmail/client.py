@@ -13,7 +13,6 @@ from .config import (
     GET_DOMAIN_LIST,
     GET_MESSAGES,
     GET_SINGLE_MESSAGE,
-    DELETE_MAILBOX,
     DOWNLOAD,
 )
 from .models import Inbox, Message
