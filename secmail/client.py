@@ -16,7 +16,7 @@ from .config import (
     DELETE_MAILBOX,
     DOWNLOAD,
 )
-from .models import MailBox, Message
+from .models import Inbox, Message
 
 
 class SecMailError(Exception):
@@ -189,14 +189,14 @@ class Client:
             params={"login": username, "domain": domain},
         )
 
-    def get_messages(self, address: str) -> List[MailBox]:
+    def get_inbox(self, address: str) -> List[Inbox]:
         """Check your mailbox."""
         username, domain = self._split_email(address)
         return self._request(
             method="GET",
             url=self.host + GET_MESSAGES,
             params={"login": username, "domain": domain},
-            data_type=MailBox,
+            data_type=Inbox,
         )
 
     def get_message(self, address: str, message_id: int) -> Message:

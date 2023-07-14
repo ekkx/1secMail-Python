@@ -1,5 +1,5 @@
-class MailBox:
-    """The mailbox object contains an array of email objects, each with an unique ID,\n
+class Inbox:
+    """The inbox object contains an array of email objects, each with an unique ID,\n
     sender's email address, subject line, and date and time the email was sent.
 
     ---
