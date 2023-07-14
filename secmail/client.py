@@ -132,7 +132,34 @@ class Client:
 
     @staticmethod
     def random_email(amount: int, domain: str = None) -> List[str]:
-        """Generate a list of random email addresses."""
+        """This function generates a list of random email addresses.
+
+        Parameters:
+        ----------
+
+            - `amount`: `int` - The number of email addresses to generate.
+            - `domain`: `str` (optional) - The domain name to use for the email addresses. If not provided, a random domain from the valid list of domains will be selected.
+
+        Example:
+        -------
+
+            >>> client.random_email(amount=5, domain="1secmail.com")
+
+        Valid domains:
+        -------------
+
+            - 1secmail.com
+            - 1secmail.org
+            - 1secmail.net
+            - kzccv.com
+            - qiott.com
+            - wuuvo.com
+            - icznn.com
+            - ezztt.com
+
+         If `domain` is provided and not in the valid list of domains, a ValueError will be raised with a message indicating the invalid domain and the valid list of domains.
+
+        """
         if domain is not None and domain not in DOMAIN_LIST:
             err_msg = (
                 f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
@@ -142,7 +169,7 @@ class Client:
         emails = []
         for i in range(amount):
             name = string.ascii_lowercase + string.digits
-            username = "".join(random.choice(name) for i in range(10))
+            username = "".join(random.choice(name) for i in range(12))
             if domain is not None:
                 emails.append(username + "@" + domain)
             else:
