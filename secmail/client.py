@@ -256,7 +256,23 @@ class Client:
                     return message
 
     def get_active_domains(self) -> List[str]:
-        """Get list of currently active domains."""
+        """This method retrieves a list of currently active domains.
+
+        Returns:
+        -------
+        - `domains`: `List[str]` - A list of active domains.
+
+        Example:
+        -------
+        Get a list of active domains:
+
+        >>> domains = client.get_active_domains()
+
+        The method sends a GET request to the API endpoint to retrieve a list of currently active domains. The list is returned as a list of strings.
+
+        Note that the list of active domains may change over time.
+
+        """
         return self._request(method="GET", url=self.host + GET_DOMAIN_LIST)
 
     def delete_email(self, address: str) -> None:
