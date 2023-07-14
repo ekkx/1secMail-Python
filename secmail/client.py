@@ -247,10 +247,10 @@ class Client:
         Note that if no new messages are received for a long time, the method may take a long time to return.
 
         """
-        ids = {message.id for message in self.get_messages(address)}
+        ids = {message.id for message in self.get_inbox(address)}
         while True:
             time.sleep(fetch_interval)
-            new_messages = self.get_messages(address)
+            new_messages = self.get_inbox(address)
             for message in new_messages:
                 if message.id not in ids:
                     return message
