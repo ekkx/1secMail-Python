@@ -132,7 +132,7 @@ class Client:
 
     @staticmethod
     def random_email(amount: int, domain: str = None) -> List[str]:
-        """This function generates a list of random email addresses.
+        """This method generates a list of random email addresses.
 
         Parameters:
         ----------
@@ -180,7 +180,7 @@ class Client:
 
     @staticmethod
     def custom_email(username: str, domain: str = None) -> str:
-        """This functioni generates a custom email address.
+        """This method generates a custom email address.
 
         Parameters:
         ----------
@@ -225,7 +225,27 @@ class Client:
         return email
 
     def await_new_message(self, address: str, fetch_interval=5) -> Inbox:
-        """Wait until you receive a new message."""
+        """This method waits until a new message is received for the specified email address.
+
+        Parameters:
+        ----------
+        - `address`: `str` - The email address to check for new messages.
+        - `fetch_interval`: `int` (optional) - The time interval (in seconds) for checking new messages. The default value is 5 seconds.
+
+        Returns:
+        -------
+        - `message`: `Inbox` - The new message received.
+
+        Example:
+        -------
+        Wait for a new message to be received for the email address "johndoe@1secmail.com":
+
+        >>> message = client.await_new_message("johndoe@1secmail.com")
+
+        The method will continuously check for new messages every `fetch_interval` seconds until a new message is received. Once a new message is received, the message object is returned. The method also maintains a set of message IDs to check if the message is new. If the same message is received again, the method will continue to wait for a new message.
+
+        Note that if no new messages are received for a long time, the method may take a long time to return.
+        """
         ids = {message.id for message in self.get_messages(address)}
         while True:
             time.sleep(fetch_interval)
