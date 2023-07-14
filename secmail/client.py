@@ -285,7 +285,7 @@ class Client:
 
         >>> messages = client.get_inbox("johndoe@1secmail.com")
 
-        The method sends a GET request to the API endpoint to retrieve all the messages in the mailbox for the specified email address. The messages are returned as a list of message objects. If there are no messages in the mailbox, an empty list is returned.
+        The method sends a GET request to the API endpoint to retrieve all the messages in the mailbox for the specified email address. The messages are returned as a list of inbox objects. If there are no messages in the mailbox, an empty list is returned.
 
         """
         username, domain = self._split_email(address)
@@ -297,7 +297,26 @@ class Client:
         )
 
     def get_message(self, address: str, message_id: int) -> Message:
-        """Fetch single message."""
+        """This method retrieves a detailed message from the mailbox for the specified email address and message ID.
+
+        Parameters:
+        ----------
+        - `address`: `str` - The email address to check for the message.
+        - `message_id`: `int` - The ID of the message to retrieve.
+
+        Returns:
+        -------
+        - `message`: `Message` - The message object with the specified ID.
+
+        Example:
+        -------
+        Get the message with ID 12345 in the mailbox for the email address "johndoe@1secmail.com":
+
+        >>> message = client.get_message("johndoe@1secmail.com", 12345)
+
+        The method sends a GET request to the API endpoint to retrieve the message with the specified ID in the mailbox for the specified email address. The message is returned as a message object.
+
+        """
         username, domain = self._split_email(address)
         return self._request(
             method="GET",
