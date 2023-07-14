@@ -41,9 +41,9 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### Usage
+## Usage
 
-#### Generating Email Addresses
+### Generating Email Addresses
 
 To generate a list of random email addresses, use the `random_email()` method:
 
@@ -58,15 +58,15 @@ client.random_email(amount=3)
 
 You can also generate a custom email address by specifying the username and domain:
 
+> **Note**
+> Specifying a domain is optional!
+
 ```python
 client.custom_email(username="bobby-bob", domain="kzccv.com")
 >>> 'bobby-bob@kzccv.com'
 ```
 
-> **Note**
-> Specifying a domain is optional!
-
-#### Receiving Messages
+### Receiving Messages
 
 To wait until a new message is received, use the `await_new_message()` method:
 
@@ -98,7 +98,7 @@ print(message.attachments)
 print(message.date)
 ```
 
-#### Attachment Information
+### Attachment Information
 
 To check attachment information, loop through the attachments in the message object and print the filename, content type, and size:
 
@@ -109,6 +109,6 @@ for attachment in message.attachments:
     print(attachment.size)
 ```
 
-### Licnese
+## Licnese
 
 This software is licensed under the [MIT](https://github.com/qvco/1secMail-Python/blob/master/LICENSE) © [Qvco](https://github.com/qvco).
