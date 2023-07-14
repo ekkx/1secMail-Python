@@ -166,7 +166,7 @@ class Client:
 
         return email
 
-    def await_new_message(self, address: str, fetch_interval=5):
+    def await_new_message(self, address: str, fetch_interval=5) -> Inbox:
         """Wait until you receive a new message."""
         ids = {message.id for message in self.get_messages(address)}
         while True:
@@ -176,7 +176,7 @@ class Client:
                 if message.id not in ids:
                     return message
 
-    def get_active_domains(self) -> list:
+    def get_active_domains(self) -> List[str]:
         """Get list of currently active domains."""
         return self._request(method="GET", url=self.host + GET_DOMAIN_LIST)
 
