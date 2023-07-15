@@ -19,6 +19,9 @@ from .config import (
 from .models import Inbox, Message
 
 
+# errors
+
+
 class SecMailError(Exception):
     """Base exception for 1secMail"""
 
@@ -79,7 +82,22 @@ class ServerError(SecMailError):
     pass
 
 
+# utils
+
+
+def is_valid_username(username: str) -> bool:
+    if username is None or len(username) > 64:
+        return False
+    return bool(
+        re.match(r"^[A-Za-z][A-Za-z0-9._-]*[A-Za-z0-9]$", username)
+        and not re.search(r"\.\.|\-\-|\_\_|\.$", username)
+    )
+
+
 current_path = os.path.abspath(os.getcwd())
+
+
+# client
 
 
 class Client:
@@ -128,15 +146,6 @@ class Client:
                 r = data_type(r)
 
         return r
-
-    @staticmethod
-    def _is_valid_username(username: str) -> bool:
-        if username is None or len(username) > 64:
-            return False
-        return bool(
-            re.match(r"^[A-Za-z][A-Za-z0-9._-]*[A-Za-z0-9]$", username)
-            and not re.search(r"\.\.|\-\-|\_\_|\.$", username)
-        )
 
     @staticmethod
     def random_email(amount: int, domain: str = None) -> List[str]:
@@ -223,7 +232,7 @@ class Client:
             )
             raise ValueError(err_msg)
 
-        if self._is_valid_username(username) is False:
+        if is_valid_username(username) is False:
             err_msg = f"'{username}' is not a valid username."
             raise ValueError(err_msg)
 
