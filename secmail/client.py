@@ -5,7 +5,7 @@ import string
 import httpx
 import json
 
-from typing import List, Tuple
+from typing import List
 from json import JSONDecodeError
 
 from .config import (
@@ -347,10 +347,16 @@ class Client:
         with open(self.base_path + "secmail.json", "w") as f:
             json.dump(data, f, indent=4)
 
-    def download_attachment(self, address: str, message_id: int, filename: str):
+    def download_attachment(
+        self,
+        address: str,
+        message_id: int,
+        filename: str,
+        save_path: str = current_path + "/config/",
+    ):
         """Download attachment from message."""
         username, domain = address.split("@")
-        return self._request(
+        attachment = self._request(
             action=DOWNLOAD,
             params={
                 "login": username,
@@ -359,3 +365,10 @@ class Client:
                 "file": filename,
             },
         )
+
+        if not os.path.exists(self.base_path):
+            os.mkdir(self.base_path)
+
+        with open(save_path + filename, "wb") as attachment_file:
+            size = attachment_file.write(attachment)
+        return save_path + filename, size
