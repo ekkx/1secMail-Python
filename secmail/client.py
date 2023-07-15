@@ -131,15 +131,12 @@ class Client:
 
     @staticmethod
     def _is_valid_username(username: str) -> bool:
-        if not username:
+        if username is None or len(username) > 64:
             return False
-        if len(username) > 64:
-            return False
-        if not re.match(r"^[A-Za-z][A-Za-z0-9._-]*[A-Za-z0-9]$", username):
-            return False
-        if re.search(r"\.\.|\-\-|\_\_|\.$", username):
-            return False
-        return True
+        return bool(
+            re.match(r"^[A-Za-z][A-Za-z0-9._-]*[A-Za-z0-9]$", username)
+            and not re.search(r"\.\.|\-\-|\_\_|\.$", username)
+        )
 
     @staticmethod
     def random_email(amount: int, domain: str = None) -> List[str]:
@@ -179,13 +176,12 @@ class Client:
             raise ValueError(err_msg)
 
         emails = []
-        for i in range(amount):
-            name = string.ascii_lowercase + string.digits
-            username = "".join(random.choice(name) for i in range(12))
-            if domain is not None:
-                emails.append(username + "@" + domain)
-            else:
-                emails.append(username + "@" + random.choice(DOMAIN_LIST))
+        for _ in range(amount):
+            username = "".join(
+                random.choices(string.ascii_lowercase + string.digits, k=12)
+            )
+            email = f"{username}@{domain or random.choice(DOMAIN_LIST)}"
+            emails.append(email)
 
         return emails
 
@@ -231,12 +227,7 @@ class Client:
             err_msg = f"'{username}' is not a valid username."
             raise ValueError(err_msg)
 
-        if domain is not None:
-            email = username + "@" + domain
-        else:
-            email = username + "@" + random.choice(DOMAIN_LIST)
-
-        return email
+        return f"{username}@{domain or random.choice(DOMAIN_LIST)}"
 
     def await_new_message(self, address: str, fetch_interval=5) -> Inbox:
         """This method waits until a new message is received for the specified email address.
