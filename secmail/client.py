@@ -97,10 +97,21 @@ class Client:
         self.api_url = "https://" + host + "/api/v1/"
         self.client = httpx.Client()
 
-    def _request(self, action, params=None, data_type=None):
+    def _request(self, action: str, params=None, data_type=None):
         r = self.client.request(method="GET", url=self.api_url + action, params=params)
 
-        r.raise_for_status()
+        if r.status_code == 400:
+            raise BadRequestError(f"HTTP {r.status_code}: {r.text}")
+        if r.status_code == 401:
+            raise AuthenticationError(f"HTTP {r.status_code}: {r.text}")
+        if r.status_code == 403:
+            raise ForbiddenError(f"HTTP {r.status_code}: {r.text}")
+        if r.status_code == 404:
+            raise NotFoundError(f"HTTP {r.status_code}: {r.text}")
+        if r.status_code == 429:
+            raise RateLimitError(f"HTTP {r.status_code}: {r.text}")
+        if r.status_code == 500:
+            raise ServerError(f"HTTP {r.status_code}: {r.text}")
 
         if action == DOWNLOAD:
             return r.content
