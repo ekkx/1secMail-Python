@@ -116,6 +116,10 @@ class Client:
                 r = data_type(r)
 
         return r
+    
+    @staticmethod
+    def _is_valid_username(username: str) -> bool:
+        pass
 
     @staticmethod
     def random_email(amount: int, domain: str = None) -> List[str]:
@@ -371,4 +375,4 @@ class Client:
 
         with open(save_path + filename, "wb") as attachment_file:
             size = attachment_file.write(attachment)
-        return save_path + filename, size
+        return "Path: (" + save_path + filename + "), Size: " + str(size) + "B"
