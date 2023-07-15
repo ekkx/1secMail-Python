@@ -1,4 +1,5 @@
 import os
+import re
 import time
 import random
 import string
@@ -116,10 +117,18 @@ class Client:
                 r = data_type(r)
 
         return r
-    
+
     @staticmethod
     def _is_valid_username(username: str) -> bool:
-        pass
+        if not username:
+            return False
+        if len(username) > 64:
+            return False
+        if not re.match(r"^[A-Za-z][A-Za-z0-9._-]*[A-Za-z0-9]$", username):
+            return False
+        if re.search(r"\.\.|\-\-|\_\_|\.$", username):
+            return False
+        return True
 
     @staticmethod
     def random_email(amount: int, domain: str = None) -> List[str]:
