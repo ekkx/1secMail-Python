@@ -118,10 +118,6 @@ class Client:
         return r
 
     @staticmethod
-    def _split_email(address: str) -> Tuple[str, str]:
-        return address.split("@")
-
-    @staticmethod
     def random_email(amount: int, domain: str = None) -> List[str]:
         """This method generates a list of random email addresses.
 
@@ -286,7 +282,7 @@ class Client:
         The method sends a GET request to the API endpoint to retrieve all the messages in the mailbox for the specified email address. The messages are returned as a list of inbox objects. If there are no messages in the mailbox, an empty list is returned.
 
         """
-        username, domain = self._split_email(address)
+        username, domain = address.split("@")
         return self._request(
             method="GET",
             url=self.host + GET_MESSAGES,
@@ -315,7 +311,7 @@ class Client:
         The method sends a GET request to the API endpoint to retrieve the message with the specified ID in the mailbox for the specified email address. The message is returned as a message object.
 
         """
-        username, domain = self._split_email(address)
+        username, domain = address.split("@")
         return self._request(
             method="GET",
             url=self.host + GET_SINGLE_MESSAGE,
@@ -355,7 +351,7 @@ class Client:
 
     def download_attachment(self, address: str, message_id: int, filename: str):
         """Download attachment from message."""
-        username, domain = self._split_email(address)
+        username, domain = address.split("@")
         return self._request(
             method="GET",
             url=self.host + DOWNLOAD,
