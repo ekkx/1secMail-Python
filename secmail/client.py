@@ -194,7 +194,8 @@ class Client:
 
         return emails
 
-    def custom_email(self, username: str, domain: str = None) -> str:
+    @staticmethod
+    def custom_email(username: str, domain: str = None) -> str:
         """This method generates a custom email address.
 
         Parameters:
