@@ -260,7 +260,7 @@ class Client:
         Note that the list of active domains may change over time.
 
         """
-        return self._request(method="GET", url=self.host + GET_DOMAIN_LIST)
+        return self._request(action=GET_DOMAIN_LIST)
 
     def get_inbox(self, address: str) -> List[Inbox]:
         """This method retrieves all the messages in the mailbox for the specified email address.
@@ -284,8 +284,7 @@ class Client:
         """
         username, domain = address.split("@")
         return self._request(
-            method="GET",
-            url=self.host + GET_MESSAGES,
+            action=GET_MESSAGES,
             params={"login": username, "domain": domain},
             data_type=Inbox,
         )
@@ -313,8 +312,7 @@ class Client:
         """
         username, domain = address.split("@")
         return self._request(
-            method="GET",
-            url=self.host + GET_SINGLE_MESSAGE,
+            action=GET_SINGLE_MESSAGE,
             params={"login": username, "domain": domain, "id": message_id},
             data_type=Message,
         )
@@ -353,8 +351,7 @@ class Client:
         """Download attachment from message."""
         username, domain = address.split("@")
         return self._request(
-            method="GET",
-            url=self.host + DOWNLOAD,
+            action=DOWNLOAD,
             params={
                 "login": username,
                 "domain": domain,
