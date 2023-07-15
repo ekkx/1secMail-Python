@@ -178,8 +178,7 @@ class Client:
 
         return emails
 
-    @staticmethod
-    def custom_email(username: str, domain: str = None) -> str:
+    def custom_email(self, username: str, domain: str = None) -> str:
         """This method generates a custom email address.
 
         Parameters:
@@ -215,6 +214,10 @@ class Client:
             err_msg = (
                 f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
             )
+            raise ValueError(err_msg)
+
+        if self._is_valid_username(username) is False:
+            err_msg = f"'{username}' is not a valid username."
             raise ValueError(err_msg)
 
         if domain is not None:
