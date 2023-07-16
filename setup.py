@@ -4,7 +4,7 @@ from secmail.config import VERSION
 name = "1secMail"
 author = "qvco"
 author_email = "nikola.desuga@gmail.com"
-description = "📧 Simple and intuitive, yet full featured API wrapper for www.1secmail.com written in Python."
+description = "📧 Simple and intuitive, yet full featured API wrapper for www.1secmail.com, supporting both synchronous and asynchronous operations."
 long_description_content_type = "text/markdown"
 license = "MIT"
 url = "https://github.com/qvco/1secMail-Python"
@@ -19,6 +19,8 @@ keywords = [
     "api",
     "wrapper",
     "library",
+    "async",
+    "asynchronous",
 ]
 
 install_requires = ["httpx>=0.17.1"]
