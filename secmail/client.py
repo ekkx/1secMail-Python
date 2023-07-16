@@ -506,3 +506,11 @@ class AsyncClient:
             params={"login": username, "domain": domain},
             data_type=Inbox,
         )
+
+    async def get_message(self, address: str, message_id: int) -> Message:
+        username, domain = address.split("@")
+        return await self._request(
+            action=GET_SINGLE_MESSAGE,
+            params={"login": username, "domain": domain, "id": message_id},
+            data_type=Message,
+        )
