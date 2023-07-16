@@ -514,3 +514,18 @@ class AsyncClient:
             params={"login": username, "domain": domain, "id": message_id},
             data_type=Message,
         )
+
+    async def save_email(self, address: str) -> None:
+        data = {}
+
+        if not os.path.exists(self.base_path):
+            os.mkdir(self.base_path)
+
+        if os.path.exists(self.base_path + "secmail.json"):
+            with open(self.base_path + "secmail.json", "r") as f:
+                data = json.load(f)
+
+        data.setdefault("email", []).append(address)
+
+        with open(self.base_path + "secmail.json", "w") as f:
+            json.dump(data, f, indent=4)
