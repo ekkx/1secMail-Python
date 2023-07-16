@@ -98,15 +98,13 @@ print(message.attachments)
 print(message.date)
 ```
 
-### Attachment Information
+### Downloading an attachment
 
-To check attachment information, loop through the attachments in the message object and print the filename, content type, and size:
+You can download an attachment from a message in the inbox of a specified email address using the download_attachment method like this:
 
 ```python
-for attachment in message.attachments:
-    print(attachment.filename)
-    print(attachment.content_type)
-    print(attachment.size)
+client.download_attachment(address, message_id, attachment_filename)
+>>> 'Path: (C:\Users\user\path/config/rocket.png), Size: 49071B'
 ```
 
 ## Asynchronous Client
@@ -184,7 +182,8 @@ async def main():
     client = secmail.AsyncClient()
     address = "bobby-bob@kzccv.com"
     inbox = await client.get_inbox(address)
-    message = await client.get_message(address, message_id=inbox[0].id)
+    message_id = inbox[0].id
+    message = await client.get_message(address, message_id)
 
     print(message.id)
     print(message.subject)
@@ -207,21 +206,16 @@ import secmail
 
 async def main():
     client = secmail.AsyncClient()
-    email_address = await client.random_email(amount=1)
-    inbox = await client.get_inbox(email_address[0])
+    address = "bobby-bob@kzccv.com"
+    inbox = await client.get_inbox(address)
     message_id = inbox[0].id
-    message = await client.get_message(email_address[0], message_id)
+    message = await client.get_message(address, message_id)
     attachment_filename = message.attachments[0].filename
-    await client.download_attachment(email_address[0], message_id, attachment_filename)
-    print(f"Attachment downloaded: {attachment_filename}")
+    await client.download_attachment(address, message_id, attachment_filename)
 
 asyncio.run(main())
 
-
-for attachment in message.attachments:
-    print(attachment.filename)
-    print(attachment.content_type)
-    print(attachment.size)
+>>> 'Path: (C:\Users\user\path/config/rocket.png), Size: 49071B'
 ```
 
 ## Licnese
