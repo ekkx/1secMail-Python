@@ -116,4 +116,4 @@ class Attachment:
         self.size = response.get("size")
 
     def __repr__(self) -> str:
-        return f"Attachment(id={self.filename}, from_address={self.content_type}, subject={self.size})"
+        return f"Attachment(filename={self.filename}, content_type={self.content_type}, size={self.size})"
