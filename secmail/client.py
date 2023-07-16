@@ -383,6 +383,26 @@ class Client:
         filename: str,
         save_path: str = current_path + "/config/",
     ):
+        """This method downloads an attachment from a message in the mailbox for the specified email address and message ID.
+
+        Parameters:
+        ----------
+        - `address`: `str` - The email address to check for the message containing the attachment.
+        - `message_id`: `int` - The ID of the message containing the attachment to download.
+        - `filename`: `str` - The name of the attachment file to download.
+        - `save_path`: `str` - Optional. The path to save the downloaded attachment. Default is the current path + "/config/".
+
+        Returns:
+        -------
+        - `str` - A string indicating the path and size of the downloaded attachment.
+
+        Example:
+        -------
+        Download the attachment named "report.pdf" from the message with ID 12345 in the mailbox for the email address "johndoe@1secmail.com":
+
+        >>> download_attachment("johndoe@1secmail.com", 12345, "report.pdf")
+
+        """
         username, domain = address.split("@")
         attachment = self._request(
             action=DOWNLOAD,
@@ -689,6 +709,26 @@ class AsyncClient:
         filename: str,
         save_path: str = current_path + "/config/",
     ):
+        """This method downloads an attachment from a message in the mailbox for the specified email address and message ID.
+
+        Parameters:
+        ----------
+        - `address`: `str` - The email address to check for the message containing the attachment.
+        - `message_id`: `int` - The ID of the message containing the attachment to download.
+        - `filename`: `str` - The name of the attachment file to download.
+        - `save_path`: `str` - Optional. The path to save the downloaded attachment. Default is the current path + "/config/".
+
+        Returns:
+        -------
+        - `str` - A string indicating the path and size of the downloaded attachment.
+
+        Example:
+        -------
+        Download the attachment named "report.pdf" from the message with ID 12345 in the mailbox for the email address "johndoe@1secmail.com":
+
+        >>> await download_attachment("johndoe@1secmail.com", 12345, "report.pdf")
+
+        """
         username, domain = address.split("@")
         attachment = await self._request(
             action=DOWNLOAD,
