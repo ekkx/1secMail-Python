@@ -1,9 +1,10 @@
 import os
 import re
-import time
+import asyncio
 import random
 import string
 import httpx
+import time
 import json
 
 from typing import List
@@ -453,3 +454,44 @@ class AsyncClient:
                 r = data_type(r)
 
         return r
+
+    @staticmethod
+    def random_email(amount: int, domain: str = None) -> List[str]:
+        if domain is not None and domain not in DOMAIN_LIST:
+            err_msg = (
+                f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
+            )
+            raise ValueError(err_msg)
+
+        emails = []
+        for _ in range(amount):
+            username = "".join(
+                random.choices(string.ascii_lowercase + string.digits, k=12)
+            )
+            email = f"{username}@{domain or random.choice(DOMAIN_LIST)}"
+            emails.append(email)
+
+        return emails
+
+    @staticmethod
+    def custom_email(username: str, domain: str = None) -> str:
+        if domain is not None and domain not in DOMAIN_LIST:
+            err_msg = (
+                f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
+            )
+            raise ValueError(err_msg)
+
+        if is_valid_username(username) is False:
+            err_msg = f"'{username}' is not a valid username."
+            raise ValueError(err_msg)
+
+        return f"{username}@{domain or random.choice(DOMAIN_LIST)}"
+
+    async def await_new_message(self, address: str, fetch_interval=5) -> Inbox:
+        ids = {message.id for message in await self.get_inbox(address)}
+        while True:
+            time.sleep(fetch_interval)
+            new_messages = await self.get_inbox(address)
+            for message in new_messages:
+                if message.id not in ids:
+                    return message
