@@ -490,7 +490,7 @@ class AsyncClient:
     async def await_new_message(self, address: str, fetch_interval=5) -> Inbox:
         ids = {message.id for message in await self.get_inbox(address)}
         while True:
-            time.sleep(fetch_interval)
+            await asyncio.sleep(fetch_interval)
             new_messages = await self.get_inbox(address)
             for message in new_messages:
                 if message.id not in ids:
