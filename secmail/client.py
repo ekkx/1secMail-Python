@@ -529,3 +529,28 @@ class AsyncClient:
 
         with open(self.base_path + "secmail.json", "w") as f:
             json.dump(data, f, indent=4)
+
+    async def download_attachment(
+        self,
+        address: str,
+        message_id: int,
+        filename: str,
+        save_path: str = current_path + "/config/",
+    ):
+        username, domain = address.split("@")
+        attachment = await self._request(
+            action=DOWNLOAD,
+            params={
+                "login": username,
+                "domain": domain,
+                "id": message_id,
+                "file": filename,
+            },
+        )
+
+        if not os.path.exists(self.base_path):
+            os.mkdir(self.base_path)
+
+        with open(save_path + filename, "wb") as attachment_file:
+            size = attachment_file.write(attachment)
+        return "Path: (" + save_path + filename + "), Size: " + str(size) + "B"
