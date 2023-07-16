@@ -495,3 +495,14 @@ class AsyncClient:
             for message in new_messages:
                 if message.id not in ids:
                     return message
+
+    async def get_active_domains(self) -> List[str]:
+        return await self._request(action=GET_DOMAIN_LIST)
+
+    async def get_inbox(self, address: str) -> List[Inbox]:
+        username, domain = address.split("@")
+        return await self._request(
+            action=GET_MESSAGES,
+            params={"login": username, "domain": domain},
+            data_type=Inbox,
+        )
