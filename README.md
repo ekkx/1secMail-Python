@@ -71,14 +71,14 @@ client.custom_email(username="bobby-bob", domain="kzccv.com")
 To wait until a new message is received, use the `await_new_message()` method:
 
 ```python
-message = client.await_new_message(address)
+message = client.await_new_message("bobby-bob@kzccv.com")
 ```
 
 To check all messages received on a particular email address, use the `get_inbox()` method and pass the email address:
 
 ```python
-messages = client.get_inbox("bobby-bob@kzccv.com")
-for message in messages:
+inbox = client.get_inbox("bobby-bob@kzccv.com")
+for message in inbox:
     print(message.id)
     print(message.from_address)
     print(message.subject)
@@ -143,38 +143,81 @@ await client.custom_email(username="bobby-bob", domain="kzccv.com")
 To wait until a new message is received, use the `await_new_message()` method:
 
 ```python
-message = client.await_new_message(address)
+import asyncio
+import secmail
+
+async def main():
+    client = secmail.AsyncClient()
+    message = await client.await_new_message("bobby-bob@kzccv.com")
+    print(f"{message.from_address}: {message.subject}")
+
+asyncio.run(main())
 ```
 
 To check all messages received on a particular email address, use the `get_inbox()` method and pass the email address:
 
 ```python
-messages = client.get_inbox("bobby-bob@kzccv.com")
-for message in messages:
-    print(message.id)
-    print(message.from_address)
-    print(message.subject)
-    print(message.date)
+import asyncio
+import secmail
+
+async def main():
+    client = secmail.AsyncClient()
+    inbox = await client.get_inbox("bobby-bob@kzccv.com")
+    print(f"You have {len(inbox)} messages in your inbox.")
+
+    for message in inbox:
+        print(message.id)
+        print(message.from_address)
+        print(message.subject)
+        print(message.date)
+
+asyncio.run(main())
 ```
 
 You can also fetch a single message using the `get_message()` method and passing the email address and message ID:
 
 ```python
-message = client.get_message(address="bobby-bob@kzccv.com", message_id=235200687)
-print(message.id)
-print(message.subject)
-print(message.body)
-print(message.text_body)
-print(message.html_body)
-print(message.attachments)
-print(message.date)
+import asyncio
+import secmail
+
+async def main():
+    client = secmail.AsyncClient()
+    address = "bobby-bob@kzccv.com"
+    inbox = await client.get_inbox(address)
+    message = await client.get_message(address, message_id=inbox[0].id)
+
+    print(message.id)
+    print(message.subject)
+    print(message.body)
+    print(message.text_body)
+    print(message.html_body)
+    print(message.attachments)
+    print(message.date)
+
+asyncio.run(main())
 ```
 
-### Attachment Information
+### Downloading an attachment
 
-To check attachment information, loop through the attachments in the message object and print the filename, content type, and size:
+You can download an attachment from a message in the inbox of a specified email address using the download_attachment method like this:
 
 ```python
+import asyncio
+import secmail
+
+async def main():
+    client = secmail.AsyncClient()
+    email_address = await client.random_email(amount=1)
+    inbox = await client.get_inbox(email_address[0])
+    message_id = inbox[0].id
+    message = await client.get_message(email_address[0], message_id)
+    attachment_filename = message.attachments[0].filename
+    await client.download_attachment(email_address[0], message_id, attachment_filename)
+    print(f"Attachment downloaded: {attachment_filename}")
+
+asyncio.run(main())
+
+
 for attachment in message.attachments:
     print(attachment.filename)
     print(attachment.content_type)
