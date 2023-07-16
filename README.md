@@ -116,11 +116,15 @@ for attachment in message.attachments:
 To generate a list of random email addresses, use the `random_email()` method:
 
 ```python
+import asyncio
 import secmail
 
-client = secmail.Client()
+async def main():
+    client = secmail.AsyncClient()
+    email_addresses = await client.random_email(amount=3)
+    print(email_addresses)
 
-client.random_email(amount=3)
+asyncio.run(main())
 >>> ['c3fho3cry1@1secmail.net', '5qcd3d36zr@1secmail.org', 'b6fgeothtg@1secmail.net']
 ```
 
@@ -130,7 +134,7 @@ You can also generate a custom email address by specifying the username and doma
 > Specifying a domain is optional!
 
 ```python
-client.custom_email(username="bobby-bob", domain="kzccv.com")
+await client.custom_email(username="bobby-bob", domain="kzccv.com")
 >>> 'bobby-bob@kzccv.com'
 ```
 
