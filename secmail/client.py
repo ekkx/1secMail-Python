@@ -400,3 +400,22 @@ class Client:
         with open(save_path + filename, "wb") as attachment_file:
             size = attachment_file.write(attachment)
         return "Path: (" + save_path + filename + "), Size: " + str(size) + "B"
+
+
+# async client
+
+
+class AsyncClient:
+    """An API wrapper for www.1secmail.com written in Python.
+
+    >>> import secmail
+    >>> client = secmail.AsyncClient()
+
+    """
+
+    def __init__(
+        self, base_path=current_path + "/config/", host="www.1secmail.com"
+    ) -> None:
+        self.base_path = base_path
+        self.api_url = "https://" + host + "/api/v1/"
+        self.client = httpx.AsyncClient()
