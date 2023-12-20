@@ -11,7 +11,6 @@ from typing import List
 from json import JSONDecodeError
 
 from .config import (
-    DOMAIN_LIST,
     GET_DOMAIN_LIST,
     GET_MESSAGES,
     GET_SINGLE_MESSAGE,
@@ -115,6 +114,7 @@ class Client:
         self.base_path = base_path
         self.api_url = "https://" + host + "/api/v1/"
         self.client = httpx.Client()
+        self.domain_list = self.get_active_domains()
 
     def _request(self, action: str, params=None, data_type=None):
         r = self.client.request(method="GET", url=self.api_url + action, params=params)
@@ -148,8 +148,7 @@ class Client:
 
         return r
 
-    @staticmethod
-    def random_email(amount: int, domain: str = None) -> List[str]:
+    def random_email(self, amount: int, domain: str = None) -> List[str]:
         """This method generates a list of random email addresses.
 
         Parameters:
@@ -179,10 +178,8 @@ class Client:
         If `domain` is provided and not in the valid list of domains, a ValueError will be raised with a message indicating the invalid domain and the valid list of domains.
 
         """
-        if domain is not None and domain not in DOMAIN_LIST:
-            err_msg = (
-                f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
-            )
+        if domain is not None and domain not in self.domain_list:
+            err_msg = f"{domain} is not a valid domain name.\nValid Domains: {self.domain_list}"
             raise ValueError(err_msg)
 
         emails = []
@@ -190,13 +187,12 @@ class Client:
             username = "".join(
                 random.choices(string.ascii_lowercase + string.digits, k=12)
             )
-            email = f"{username}@{domain or random.choice(DOMAIN_LIST)}"
+            email = f"{username}@{domain or random.choice(self.domain_list)}"
             emails.append(email)
 
         return emails
 
-    @staticmethod
-    def custom_email(username: str, domain: str = None) -> str:
+    def custom_email(self, username: str, domain: str = None) -> str:
         """This method generates a custom email address.
 
         Parameters:
@@ -228,17 +224,15 @@ class Client:
         If `domain` is provided and not in the valid list of domains, a ValueError will be raised with a message indicating the invalid domain and the valid list of domains.
 
         """
-        if domain is not None and domain not in DOMAIN_LIST:
-            err_msg = (
-                f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
-            )
+        if domain is not None and domain not in self.domain_list:
+            err_msg = f"{domain} is not a valid domain name.\nValid Domains: {self.domain_list}"
             raise ValueError(err_msg)
 
         if is_valid_username(username) is False:
             err_msg = f"'{username}' is not a valid username."
             raise ValueError(err_msg)
 
-        return f"{username}@{domain or random.choice(DOMAIN_LIST)}"
+        return f"{username}@{domain or random.choice(self.domain_list)}"
 
     def await_new_message(self, address: str, fetch_interval=5) -> Inbox:
         """This method waits until a new message is received for the specified email address.
@@ -439,6 +433,8 @@ class AsyncClient:
         self.base_path = base_path
         self.api_url = "https://" + host + "/api/v1/"
         self.client = httpx.AsyncClient()
+        self.__client = Client(base_path, host)
+        self.domain_list = self.__client.get_active_domains()
 
     async def _request(self, action: str, params=None, data_type=None):
         r = await self.client.request(
@@ -474,8 +470,7 @@ class AsyncClient:
 
         return r
 
-    @staticmethod
-    def random_email(amount: int, domain: str = None) -> List[str]:
+    def random_email(self, amount: int, domain: str = None) -> List[str]:
         """This method generates a list of random email addresses.
 
         Parameters:
@@ -505,10 +500,8 @@ class AsyncClient:
         If `domain` is provided and not in the valid list of domains, a ValueError will be raised with a message indicating the invalid domain and the valid list of domains.
 
         """
-        if domain is not None and domain not in DOMAIN_LIST:
-            err_msg = (
-                f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
-            )
+        if domain is not None and domain not in self.domain_list:
+            err_msg = f"{domain} is not a valid domain name.\nValid Domains: {self.domain_list}"
             raise ValueError(err_msg)
 
         emails = []
@@ -516,13 +509,12 @@ class AsyncClient:
             username = "".join(
                 random.choices(string.ascii_lowercase + string.digits, k=12)
             )
-            email = f"{username}@{domain or random.choice(DOMAIN_LIST)}"
+            email = f"{username}@{domain or random.choice(self.domain_list)}"
             emails.append(email)
 
         return emails
 
-    @staticmethod
-    def custom_email(username: str, domain: str = None) -> str:
+    def custom_email(self, username: str, domain: str = None) -> str:
         """This method generates a custom email address.
 
         Parameters:
@@ -554,17 +546,15 @@ class AsyncClient:
         If `domain` is provided and not in the valid list of domains, a ValueError will be raised with a message indicating the invalid domain and the valid list of domains.
 
         """
-        if domain is not None and domain not in DOMAIN_LIST:
-            err_msg = (
-                f"{domain} is not a valid domain name.\nValid Domains: {DOMAIN_LIST}"
-            )
+        if domain is not None and domain not in self.domain_list:
+            err_msg = f"{domain} is not a valid domain name.\nValid Domains: {self.domain_list}"
             raise ValueError(err_msg)
 
         if is_valid_username(username) is False:
             err_msg = f"'{username}' is not a valid username."
             raise ValueError(err_msg)
 
-        return f"{username}@{domain or random.choice(DOMAIN_LIST)}"
+        return f"{username}@{domain or random.choice(self.domain_list)}"
 
     async def await_new_message(self, address: str, fetch_interval=5) -> Inbox:
         """This method waits until a new message is received for the specified email address.
